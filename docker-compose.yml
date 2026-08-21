@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgis/postgis:16-3.4
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: changeme
+      POSTGRES_DB: sadaksathi
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+  # web: uvicorn src.asgi:application  (equivalent of `npm run dev` / server.js)
+  # celery_worker: celery -A sadaksathi worker -l info  (equivalent of the
+  #   in-process cron workers started from server.js)
+  # celery_beat: celery -A sadaksathi beat -l info  (schedule; see sadaksathi/celery.py)
+  #
+  # Left commented out here the same way the original docker-compose.yml
+  # only ran infra (postgres/redis) and expected `npm run dev` to run the
+  # app itself on the host.
+
+volumes:
+  pgdata:
